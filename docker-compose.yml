@@ -1,0 +1,18 @@
+version: "3.8"
+
+services:
+  reverse-proxy:
+    image: fgaviria/udagram-image-reverse-proxy
+    ports:
+      - "8080:8080"
+    depends_on:
+      - feed-svc
+      - user-svc
+  feed-svc:
+    image: fgaviria/udagram-image-feed
+    env_file: .env-feed
+  user-svc:
+    image: fgaviria/udagram-image-user
+    env_file: .env-user
+
+
