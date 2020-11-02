@@ -1,0 +1,15 @@
+apiVersion: v1
+
+kind: Service
+metadata:
+  name: reverse-proxy-svc
+  labels:
+    run: reverse-proxy-svc
+spec:
+  selector:
+    app: reverse-proxy-svc
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
+  type: LoadBalancer
