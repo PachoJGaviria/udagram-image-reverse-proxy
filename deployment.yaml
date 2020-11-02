@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+
+kind: Deployment
+metadata:
+  name: reverse-proxy-svc
+  labels:
+    app: reverse-proxy-svc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reverse-proxy-svc
+  template:
+    metadata:
+      labels:
+        app: reverse-proxy-svc
+    spec:
+      containers:
+      - name: udagram-image-reverse-proxy
+        image: fgaviria/udagram-image-reverse-proxy:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        resources:
+          requests: { memory: 10Mi, cpu: "0.1" }
+          limits: { memory: 128Mi, cpu: "0.5" }
+        livenessProbe:
+          httpGet:
+            path: "/"
+            port: 8080
+          initialDelaySeconds: 3
+          periodSeconds: 60
+        readinessProbe:
+          httpGet:
+            path: "/"
+            port: 8080
+          initialDelaySeconds: 3
